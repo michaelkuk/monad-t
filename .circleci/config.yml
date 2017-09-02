@@ -9,12 +9,12 @@ jobs:
       - checkout
       - run: 'sudo npm install -g npm@latest'
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+        key: dependency-cache-{{ checksum "package.json" }}
       - run: npm install
       - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
+        key: dependency-cache-{{ checksum "package.json" }}
+        paths:
+          - ./node_modules
       - run: npm run build:commonjs
   test:
     working_directory: ~/monad-t
@@ -37,5 +37,5 @@ workflows:
     jobs:
       - build
       - test:
-          requires:
-            -build
+        requires:
+          -build
