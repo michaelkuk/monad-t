@@ -1,7 +1,7 @@
 {
   "author": "Vladimir Gorej <vladimir.gorej@gmail.com> (linkedin.com/in/vladimirgorej)",
   "contributors": [],
-  "name": "monad-t",
+  "name": "monad-t-test-dnd",
   "description": "Transformers for monadic algebraic structures",
   "keywords": "monad transformer algebraic structures",
   "version": "0.3.0",
@@ -57,7 +57,7 @@
     "conventional-changelog-cli": "=1.3.2",
     "cross-env": "=5.0.1",
     "docdash": "git+https://github.com/char0n/docdash.git#16d3b4e677ec7286bbf07badfc9ee37c93101d39",
-    "eslint": "=4.3.0",
+    "eslint": "=^3.19.0",
     "eslint-config-airbnb": "=15.1.0",
     "eslint-plugin-import": "=2.7.0",
     "eslint-plugin-jsx-a11y": "=5.1.1",
