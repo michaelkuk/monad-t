@@ -7,7 +7,6 @@ jobs:
         version: 7
     steps:
       - checkout
-      - run: 'sudo npm install -g npm@latest'
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run: npm install
