@@ -22,7 +22,6 @@ jobs:
       - run:
         name: build
         command: npm run build:commonjs
-
   test:
     working_directory: ~/monad-t
     machine:
