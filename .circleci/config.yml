@@ -17,9 +17,8 @@ jobs:
       - run: echo
   test_lint:
     working_directory: ~/monad-t
-      docker:
-        - image: circleci/node:7.10
-
+    docker:
+      - image: circleci/node:7.10
     steps:
       - checkout
       - restore_cache:
@@ -32,8 +31,8 @@ jobs:
       - run: npm run lint
   test_nsp:
     working_directory: ~/monad-t
-      docker:
-        - image: circleci/node:7.10
+    docker:
+      - image: circleci/node:7.10
 
     steps:
       - checkout
@@ -47,8 +46,8 @@ jobs:
       - run: npm run nsp:check
   test_v4:
     working_directory: ~/monad-t
-      docker:
-        - image: circleci/node:4
+    docker:
+      - image: circleci/node:4
 
     steps:
       - checkout
@@ -62,9 +61,8 @@ jobs:
       - run: npm run test
   test_v6:
     working_directory: ~/monad-t
-      docker:
-        - image: circleci/node:6
-
+    docker:
+      - image: circleci/node:6
     steps:
       - checkout
       - restore_cache:
@@ -77,9 +75,8 @@ jobs:
       - run: npm run test
   test_v7:
     working_directory: ~/monad-t
-      docker:
-        - image: circleci/node:7
-
+    docker:
+      - image: circleci/node:7
     steps:
       - checkout
       - restore_cache:
@@ -92,9 +89,8 @@ jobs:
       - run: npm run test
   test_latest:
     working_directory: ~/monad-t
-      docker:
-        - image: circleci/node:latest
-
+    docker:
+      - image: circleci/node:latest
     steps:
       - checkout
       - restore_cache:
