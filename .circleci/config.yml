@@ -1,0 +1,64 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/monad-t
+    machine:
+      node:
+        version: 7
+    steps:
+      - checkout
+      - run:
+          name: update-npm
+          command: 'sudo npm install -g npm@latest'
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: install-npm-wee
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+        name: build
+        command: npm run build:commonjs
+
+  test:
+    working_directory: ~/monad-t
+    machine:
+      node:
+        version: 7
+    steps:
+      - run:
+          name: lint
+          command: npm run lint
+      - run:
+          name: nsp
+          command: npm run nsp:check
+      - run:
+          name: test-v4
+          command: nvm use 4 && npm run test
+      - run:
+          name: test-v5
+          command: nvm use 5 && npm run test
+      - run:
+          name: test-v6
+          command: nvm use 6 && npm run test
+      - run:
+          name: test-v7
+          command: nvm use 7 && npm run test
+      - run:
+          name: test-v8
+          command: MOCHA_FILE=$CIRCLE_TEST_REPORTS/junit/test-results.xml nvm install 8 && nvm use 8 && npm run test
+      - run:
+          name: code-coverage
+          command: './node_modules/.bin/nyc report --reporter=text-lcov'
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test:
+        requires:
+          -build
