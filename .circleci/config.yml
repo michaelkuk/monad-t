@@ -1,41 +1,61 @@
+# version: 2
+# jobs:
+#   build:
+#     working_directory: ~/monad-t
+#     machine:
+#       node:
+#         version: 7
+#     steps:
+#       - checkout
+#       - run: 'sudo npm install -g npm@latest'
+#       - restore_cache:
+#         key: dependency-cache-{{ checksum "package.json" }}
+#       - run: npm install
+#       - save_cache:
+#         key: dependency-cache-{{ checksum "package.json" }}
+#         paths:
+#           - ./node_modules
+#       - run: npm run build:commonjs
+#   test:
+#     working_directory: ~/monad-t
+#     machine:
+#       node:
+#         version: 7
+#     steps:
+#       - run: npm run lint
+#       - run: npm run nsp:check
+#       - run: nvm use 4 && npm run test
+#       - run: nvm use 5 && npm run test
+#       - run: nvm use 6 && npm run test
+#       - run: nvm use 7 && npm run test
+#       - run: MOCHA_FILE=$CIRCLE_TEST_REPORTS/junit/test-results.xml nvm install 8 && nvm use 8 && npm run test
+#       # - run: './node_modules/.bin/nyc report --reporter=text-lcov'
+
+# workflows:
+#   version: 2
+#   build_and_test:
+#     jobs:
+#       - build
+#       - test:
+#         requires:
+#           -build
 version: 2
 jobs:
   build:
-    working_directory: ~/monad-t
-    machine:
-      node:
-        version: 7
+    docker:
+      - image: circleci/<language>:<version TAG>
     steps:
       - checkout
-      - run: 'sudo npm install -g npm@latest'
-      - restore_cache:
-        key: dependency-cache-{{ checksum "package.json" }}
-      - run: npm install
-      - save_cache:
-        key: dependency-cache-{{ checksum "package.json" }}
-        paths:
-          - ./node_modules
-      - run: npm run build:commonjs
+      - run: <command>
   test:
-    working_directory: ~/monad-t
-    machine:
-      node:
-        version: 7
+    docker:
+      - image: circleci/<language>:<version TAG>
     steps:
-      - run: npm run lint
-      - run: npm run nsp:check
-      - run: nvm use 4 && npm run test
-      - run: nvm use 5 && npm run test
-      - run: nvm use 6 && npm run test
-      - run: nvm use 7 && npm run test
-      - run: MOCHA_FILE=$CIRCLE_TEST_REPORTS/junit/test-results.xml nvm install 8 && nvm use 8 && npm run test
-      # - run: './node_modules/.bin/nyc report --reporter=text-lcov'
-
+      - checkout
+      - run: <command>
 workflows:
   version: 2
   build_and_test:
     jobs:
       - build
-      - test:
-        requires:
-          -build
+      - test
