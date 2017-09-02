@@ -15,7 +15,7 @@ jobs:
           paths:
             - ./node_modules
       - run: npm run build:commonjs
-      - run: which nvm
+      - run: nvm ls
   test:
     working_directory: ~/monad-t
     machine:
