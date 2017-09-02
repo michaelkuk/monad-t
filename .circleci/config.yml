@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  deploy:
     working_directory: ~/monad-t
     docker:
       - image: circleci/node:7.10
@@ -14,25 +14,113 @@ jobs:
           paths:
             - ./node_modules
       - run: npm run build:commonjs
-  test:
+      - run: echo
+  test_lint:
     working_directory: ~/monad-t
-    docker:
-      - image: circleci/node:7.10
+      docker:
+        - image: circleci/node:7.10
+
     steps:
       - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
       - run: npm run lint
+  test_nsp:
+    working_directory: ~/monad-t
+      docker:
+        - image: circleci/node:7.10
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
       - run: npm run nsp:check
-      # - run: nvm use 4 && npm run test
-      # - run: nvm use 5 && npm run test
-      # - run: nvm use 6 && npm run test
-      # - run: nvm use 7 && npm run test
-      - run: MOCHA_FILE=$CIRCLE_TEST_REPORTS/junit/test-results.xml npm run test
-      # - run: './node_modules/.bin/nyc report --reporter=text-lcov'
+  test_v4:
+    working_directory: ~/monad-t
+      docker:
+        - image: circleci/node:4
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run: npm run test
+  test_v6:
+    working_directory: ~/monad-t
+      docker:
+        - image: circleci/node:6
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run: npm run test
+  test_v7:
+    working_directory: ~/monad-t
+      docker:
+        - image: circleci/node:7
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run: npm run test
+  test_latest:
+    working_directory: ~/monad-t
+      docker:
+        - image: circleci/node:latest
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run: npm run test
+
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - build
-      - test:
+      - test_lint
+      - test_nsp
+      - test_v4
+      - test_v6
+      - test_v7
+      - test_latest
+      - deploy:
           requires:
-            - build
+            - test_lint
+            - test_nsp
+            - test_v4
+            - test_v6
+            - test_v7
+            - test_latest
