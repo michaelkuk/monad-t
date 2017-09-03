@@ -43,7 +43,6 @@ deployment:
   npm:
     tag: /v[0-9]+(\.[0-9]+)*/
     commands:
-      - echo $CIRCLE_TAG
-      - npm version --allow-same-version $CIRCLE_TAG
+      - npm version $CIRCLE_TAG --allow-same-version
       # # - npm publish
       - git push --follow-tags
