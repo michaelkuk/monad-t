@@ -40,8 +40,8 @@ deployment:
   #     - ./scripts/deploy-ghpages.sh docs/monad-t
   npm:
     tag: /v[0-9]+(\.[0-9]+)*/
-      commands:
-        - echo $CIRCLE_TAG
-        # - npm version $CIRCLE_TAG
-        # # - npm publish
-        # - git push --follow-tags
+    commands:
+      - echo $CIRCLE_TAG
+      # - npm version $CIRCLE_TAG
+      # # - npm publish
+      # - git push --follow-tags
