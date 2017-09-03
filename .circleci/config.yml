@@ -115,9 +115,7 @@ workflows:
       - deploy:
           filters:
             tags:
-              only: /v\d+\.\d+\.\d+/
-            branches:
-              only: master
+              only: /v[0-9]+\.[0-9]+[0-9]+/
           requires:
             - test_lint
             - test_nsp
