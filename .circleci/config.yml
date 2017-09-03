@@ -113,6 +113,11 @@ workflows:
       - test_v7
       - test_latest
       - deploy:
+          filters:
+            tags:
+              only: /v\d+\.\d+\.\d+/
+            branches:
+              only: master
           requires:
             - test_lint
             - test_nsp
