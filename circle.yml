@@ -46,4 +46,4 @@ deployment:
       - git tag -d $CIRCLE_TAG
       - npm version $CIRCLE_TAG
       # # - npm publish
-      - git push --follow-tags
+      - git push origin HEAD:master --follow-tags
