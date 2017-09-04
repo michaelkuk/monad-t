@@ -25,6 +25,7 @@ test:
   override:
     - npm run lint
     - npm run nsp:check
+    - npm run docs
     - nvm use 4 && npm run test
     - nvm use 5 && npm run test
     - nvm use 6 && npm run test
@@ -35,11 +36,11 @@ test:
 
 deployment:
   release:
-    tag: /^v[0-9]+(\.[0-9]+)*$/
+    tag: /^v[0-9]+\.[0-9]+\.[0-9]+$/
     commands:
+      - npm run build:commonjs
       - git tag -d $CIRCLE_TAG
       - npm version $CIRCLE_TAG
-      - npm run docs
       - chmod -R +x ./scripts
       - ./scripts/deploy-ghpages.sh docs/monad-t
       - npm publish
